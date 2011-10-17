@@ -33,7 +33,7 @@ No. Setting up and FSP VA should be pursued though FSPassengers.com's forums.
 
 == Screenshots  ==
 
-/tags/1.0.1/screenshot-1.PNG
+1. Styled Output Screen
 
 == Changelog ==
 
