@@ -4,7 +4,7 @@
 Plugin Name: FS-Pax Pirep
 Plugin URI: http://www.federalproductions.com/studio/game-add-ons/fs-pax/
 Description: Adds scripted PIREP display as a plugin to WordPress
-Version: 1.0.1
+Version: 1.0.2
 Author: Ted Thompson
 Author URI: http://www.federalproductions.com
 */
