@@ -33,7 +33,7 @@ No. Setting up and FSP VA should be pursued though FSPassengers.com's forums.
 
 == Screenshots  ==
 
-* None
+/tags/1.0.1/screenshot-1.PNG
 
 == Changelog ==
 
@@ -53,10 +53,10 @@ No. Setting up and FSP VA should be pursued though FSPassengers.com's forums.
 
 == Additional Info ==
 
-Table of flights is .pireptable
-Column Titles are .pireptitle
-Cells are classed .pirepcell .pirepodd OR .pirepcell .pirepeven (allows alternating row colors)
-Summary table at the bottom is also .pireptable
-Summary table cell is classed .pirepsum
+* Table of flights is .pireptable
+* Column Titles are .pireptitle
+* Cells are classed .pirepcell .pirepodd OR .pirepcell .pirepeven (allows alternating row colors)
+* Summary table at the bottom is also .pireptable
+* Summary table cell is classed .pirepsum
 
 Using these classes you can add styling to the tables in your themes CSS style sheet or using the "Custom CSS" plugin.
