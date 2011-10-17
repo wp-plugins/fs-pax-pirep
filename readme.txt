@@ -47,6 +47,10 @@ No. Setting up and FSP VA should be pursued though FSPassengers.com's forums.
 * Added Link to settings page from plugins menu page
 * Added info to Readme about CSS classes for output styling
 
+= 1.0.2 =
+
+* Added screenshot
+
 == Upgrade Notice ==
 
 * NONE (yet)
