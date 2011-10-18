@@ -4,7 +4,7 @@
 Plugin Name: FS-Pax Pirep
 Plugin URI: http://www.federalproductions.com/studio/game-add-ons/fs-pax/
 Description: Adds scripted PIREP display as a plugin to WordPress
-Version: 1.0.2
+Version: 1.0.3
 Author: Ted Thompson
 Author URI: http://www.federalproductions.com
 */
@@ -89,6 +89,7 @@ function build_flight_list($reporthtml)
 	$TDListSummary	='<td class="pirepsum">';
 	//
 
+	$linkattribs = stripslashes( get_option( 'FP_pirep_linkattribs' ) );
 	$CompanyFlightTime="00:00:00";
 	$TotalPassengers=0;
 	$TotalCargo=0;
@@ -127,7 +128,7 @@ function build_flight_list($reporthtml)
 		if (get_option('FP_pirep_showcol1'))
 			{
 			if($Line==0)$reporthtml .= $TDListOdd;else $reporthtml .= $TDListEven;
-			$reporthtml .= '<a href="'.$vascriptpath.'/FsPlistflight.php?action=va&listflight='.$row[id].'" target="_blank">'.$row["FlightId"].'</a>';
+			$reporthtml .= '<a href="'.$vascriptpath.'/FsPlistflight.php?action=va&listflight='.$row[id].'" '.$linkattribs.'>'.$row["FlightId"].'</a>';
 			}
 		if (get_option('FP_pirep_showcol2'))
 			{
@@ -208,6 +209,7 @@ function fp_pirep_admin_options() {
 	$opt_name8 	= 'FP_pirep_showcol8';
 	$opt_name9 	= 'FP_pirep_showcol9';
 	$opt_name10 	= 'FP_pirep_showcol10';
+	$opt_name11	= 'FP_pirep_linkattribs';
 	
 	$hidden_field_name = 'mt_submit_hidden';
 	$data_field_name  = 'va_script_path';
@@ -221,6 +223,7 @@ function fp_pirep_admin_options() {
 	$data_field_name8 = 'ShowCol8';
 	$data_field_name9 = 'ShowCol9';
 	$data_field_name10 = 'ShowCol10';
+	$data_field_name11 = 'linkattribs';
 
     // Read in existing option value from database
 	$opt_val   = get_option( $opt_name );
@@ -234,6 +237,7 @@ function fp_pirep_admin_options() {
 	$opt_val8  = get_option( $opt_name8 );
 	$opt_val9  = get_option( $opt_name9 );
 	$opt_val10 = get_option( $opt_name10 );
+	$opt_val11 = get_option( $opt_name11 );
 	$fsp_admin_link = get_bloginfo('url')."/".$opt_val."/FsPadmin";
 
     // See if the user has posted us some information
@@ -251,6 +255,7 @@ function fp_pirep_admin_options() {
         $opt_val8 = $_POST[ $data_field_name8 ];
         $opt_val9 = $_POST[ $data_field_name9 ];
         $opt_val10 = $_POST[ $data_field_name10 ];
+	$opt_val11 = $_POST[ $data_field_name11 ];
 
         // Save the posted value in the database
         update_option( $opt_name, $opt_val );
@@ -264,6 +269,7 @@ function fp_pirep_admin_options() {
         update_option( $opt_name8, $opt_val8 );
         update_option( $opt_name9, $opt_val9 );
         update_option( $opt_name10, $opt_val10 );
+	update_option( $opt_name11, $opt_val11 );
 
         // Put an options updated message on the screen
 
@@ -292,6 +298,9 @@ function fp_pirep_admin_options() {
 
 <p><?php _e("VA Script Path->  ".get_bloginfo('url')."/" , 'mt_trans_domain' ); ?> 
 <input type="text" name="<?php echo $data_field_name; ?>" value="<?php echo $opt_val; ?>" size="20"> (NOTE: NO PRECEEDING OR TRAILING SLASH!)
+</p><hr />
+<p><?php _e("Extra Link attributes (target, class, etc.) " , 'mt_trans_domain' ); ?> 
+<input type="text" name="<?php echo $data_field_name11; ?>" value="<?php echo str_replace('\"', '&quot;', $opt_val11 ); ?>" size="20"> (NOTE: ENTER AS target="_blank" ETC.)
 </p><hr />
 <h3>Select Columns to Display</h3>
 <table style="width: 90%; margin: 0 auto;">
@@ -362,7 +371,7 @@ function FP_FSPax_add_settings_link( $links, $file )
 	{
 	if ( $file == plugin_basename( dirname(__FILE__).'/fs-pax-pirep.php' ) ) 
 		{
-		$links[] = '<a href="http://www.federalproductions.com/menagerie/wp-admin/options-general.php?page=fs-pax-pirep.php">'.__('Settings').'</a>';
+		$links[] = '<a href="'.get_admin_url().'/options-general.php?page=fs-pax-pirep.php">'.__('Settings').'</a>';
 		}
 	return $links;
 	}

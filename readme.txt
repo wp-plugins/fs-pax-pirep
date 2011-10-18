@@ -4,7 +4,7 @@ Donate Link: http://www.federalproductions.com
 Tags: FSPassengers, Flight simulator
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 
 Adds scripted PIREP display as a plugin to WordPress.
 
@@ -37,9 +37,14 @@ No. Setting up and FSP VA should be pursued though FSPassengers.com's forums.
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.3 =
 
-* Initial Release
+* Corrected hard coded link to settings page (had my own site's url in it, oops)
+* Added option to add attributes to the report links, I needed this to allow the addition of class=external so WP-Touch would work correctly.  Others might find it useful as well as it could be used for a target or id attribute, etc.
+
+= 1.0.2 =
+
+* Added screenshot
 
 = 1.0.1 = 
 
@@ -47,9 +52,9 @@ No. Setting up and FSP VA should be pursued though FSPassengers.com's forums.
 * Added Link to settings page from plugins menu page
 * Added info to Readme about CSS classes for output styling
 
-= 1.0.2 =
+= 1.0 =
 
-* Added screenshot
+* Initial Release
 
 == Upgrade Notice ==
 
