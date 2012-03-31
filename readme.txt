@@ -3,8 +3,8 @@ Contributors: yorokobi
 Donate Link: http://www.federalproductions.com
 Tags: FSPassengers, Flight simulator
 Requires at least: 3.0
-Tested up to: 3.2.1
-Stable tag: 1.0.3
+Tested up to: 3.3.1
+Stable tag: 2.0
 
 Adds scripted PIREP display as a plugin to WordPress.
 
@@ -36,6 +36,10 @@ No. Setting up and FSP VA should be pursued though FSPassengers.com's forums.
 1. Styled Output Screen
 
 == Changelog ==
+
+= 2.0 =
+
+* Added pagination using jQuery and DataTables
 
 = 1.0.3 =
 

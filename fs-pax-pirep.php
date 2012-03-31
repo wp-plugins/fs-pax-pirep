@@ -4,7 +4,7 @@
 Plugin Name: FS-Pax Pirep
 Plugin URI: http://www.federalproductions.com/studio/game-add-ons/fs-pax/
 Description: Adds scripted PIREP display as a plugin to WordPress
-Version: 1.0.3
+Version: 2.0
 Author: Ted Thompson
 Author URI: http://www.federalproductions.com
 */
@@ -27,6 +27,26 @@ Author URI: http://www.federalproductions.com
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+function fedprod_addScript() {
+
+$file = dirname(__FILE__) . '/fs-pax-pirep.php';
+$file_url = plugin_dir_url($file);
+
+?>
+<!-- Start FS-PAX added code -->
+	<script type="text/javascript" src="<?php echo $file_url ?>js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+			$('#pireplist').dataTable( {
+			"bSort": false,
+			"sPaginationType": "full_numbers"
+			} );
+		} );
+	</script>
+<!-- End FS-PAX added code -->
+<?php
+}
+
 function fedprod_showfspflights($content)
 	{
 		$tag = '[fp-pirep-report]';
@@ -36,6 +56,8 @@ function fedprod_showfspflights($content)
 
 		if ($tagcheck)
 		{
+
+		add_action('wp_footer','fedprod_addScript');
 
 		$vascriptpath = get_option( 'FSPassengers VA Script Path' );
 		//NEEDED STUFF USUALLY YOU WILL NOT NEED TO CHANGE THIS///////////////////////////////////
@@ -80,13 +102,13 @@ function build_flight_list($reporthtml)
 {
 
 	// EDIT THE TABLE DESIGN HERE 
-	$ListStart	="<table class=\"pireptable\">\n";
-	$TDTitStyle 	='<td class="pireptitle">';
-	$TDListOdd	='<td class="pirepcell pirepodd">';
-	$TDListEven	='<td class="pirepcell pirepeven">';
+	$ListStart	='<table id="pireplist" class="pireptable">';
+	$TDTitStyle 	='<th class="pireptitle">';
+	$TDListOdd	='<td class="pirepcell pirepodd"><div class="pireptext">';
+	$TDListEven	='<td class="pirepcell pirepeven"><div class="pireptext">';
 	$TRList		="<tr>";
-	$ListStop	="</table>\n";
-	$TDListSummary	='<td class="pirepsum">';
+	$ListStop	="</tbody>\n</table>\n";
+	$ListSummary	='<div class="pirepsum">';
 	//
 
 	$linkattribs = stripslashes( get_option( 'FP_pirep_linkattribs' ) );
@@ -95,18 +117,18 @@ function build_flight_list($reporthtml)
 	$TotalCargo=0;
 	$vascriptpath = get_bloginfo('url')."/".get_option( 'FSPassengers VA Script Path' );
 
-	$TableTitle 	="<tr>";
-	if (get_option('FP_pirep_showcol1')) $TableTitle .="$TDTitStyle Id</td>";
-	if (get_option('FP_pirep_showcol2')) $TableTitle .="$TDTitStyle Date</td>";
-	if (get_option('FP_pirep_showcol3')) $TableTitle .="$TDTitStyle Airline</td>";
-	if (get_option('FP_pirep_showcol4')) $TableTitle .="$TDTitStyle PIC</td>";
-	if (get_option('FP_pirep_showcol5')) $TableTitle .="$TDTitStyle Dep</td>";
-	if (get_option('FP_pirep_showcol6')) $TableTitle .="$TDTitStyle Arr</td>";
-	if (get_option('FP_pirep_showcol7')) $TableTitle .="$TDTitStyle Pax</td>";
-	if (get_option('FP_pirep_showcol8')) $TableTitle .="$TDTitStyle A/C</td>";
-	if (get_option('FP_pirep_showcol9')) $TableTitle .="$TDTitStyle Block Time</td>";
-	if (get_option('FP_pirep_showcol10')) $TableTitle .="$TDTitStyle Result</td>";
-	$TableTitle .="</tr>\n";	
+	$TableTitle 	="<thead><tr>";
+	if (get_option('FP_pirep_showcol1')) $TableTitle .="$TDTitStyle Id</th>";
+	if (get_option('FP_pirep_showcol2')) $TableTitle .="$TDTitStyle Date</th>";
+	if (get_option('FP_pirep_showcol3')) $TableTitle .="$TDTitStyle Airline</th>";
+	if (get_option('FP_pirep_showcol4')) $TableTitle .="$TDTitStyle PIC</th>";
+	if (get_option('FP_pirep_showcol5')) $TableTitle .="$TDTitStyle Dep</th>";
+	if (get_option('FP_pirep_showcol6')) $TableTitle .="$TDTitStyle Arr</th>";
+	if (get_option('FP_pirep_showcol7')) $TableTitle .="$TDTitStyle Pax</th>";
+	if (get_option('FP_pirep_showcol8')) $TableTitle .="$TDTitStyle A/C</th>";
+	if (get_option('FP_pirep_showcol9')) $TableTitle .="$TDTitStyle Block Time</th>";
+	if (get_option('FP_pirep_showcol10')) $TableTitle .="$TDTitStyle Result</th>";
+	$TableTitle .="</tr></thead>\n<tbody>\n";	
 
 	$reporthtml = $ListStart.$TableTitle;
 
@@ -122,61 +144,61 @@ function build_flight_list($reporthtml)
 
 	//Build table rows - to omit columns, comment out with double slash
 
-	while (($row = mysql_fetch_assoc($result)) && ($boardlength != 10)) 
+	while ($row = mysql_fetch_assoc($result)) //(($row = mysql_fetch_assoc($result)) && ($boardlength != 10)) 
 	{
 		$reporthtml .= $TRList;
 		if (get_option('FP_pirep_showcol1'))
 			{
 			if($Line==0)$reporthtml .= $TDListOdd;else $reporthtml .= $TDListEven;
-			$reporthtml .= '<a href="'.$vascriptpath.'/FsPlistflight.php?action=va&listflight='.$row[id].'" '.$linkattribs.'>'.$row["FlightId"].'</a>';
+			$reporthtml .= '<a href="'.$vascriptpath.'/FsPlistflight.php?action=va&amp;listflight='.$row[id].'" '.$linkattribs.'>'.$row["FlightId"].'</a>'."</div></td>";
 			}
 		if (get_option('FP_pirep_showcol2'))
 			{
 			if($Line==0)$reporthtml .= $TDListOdd;else $reporthtml .= $TDListEven;
-			$reporthtml .= $row["FlightDate"];
+			$reporthtml .= $row["FlightDate"]."</div></td>";
 			}
 		if (get_option('FP_pirep_showcol3'))
 			{
 		if($Line==0)$reporthtml .= $TDListOdd;else $reporthtml .= $TDListEven;
-		$reporthtml .= $row["CompanyName"];
+		$reporthtml .= $row["CompanyName"]."</div></td>";
 			}
 		if (get_option('FP_pirep_showcol4'))
 			{
 		if($Line==0)$reporthtml .= $TDListOdd;else $reporthtml .= $TDListEven;
-		$reporthtml .= $row["PilotName"];
+		$reporthtml .= $row["PilotName"]."</div></td>";
 			}
 		if (get_option('FP_pirep_showcol5'))
 			{
 		if($Line==0)$reporthtml .= $TDListOdd;else $reporthtml .= $TDListEven;
-		$reporthtml .= substr($row["DepartureIcaoName"],0,4);
+		$reporthtml .= substr($row["DepartureIcaoName"],0,4)."</div></td>";
 			}
 		if (get_option('FP_pirep_showcol6'))
 			{
 		if($Line==0)$reporthtml .= $TDListOdd;else $reporthtml .= $TDListEven;
-		$reporthtml .= substr($row["ArrivalIcaoName"],0,4);
+		$reporthtml .= substr($row["ArrivalIcaoName"],0,4)."</div></td>";
 			}
 		if (get_option('FP_pirep_showcol7'))
 			{
 		if($Line==0)$reporthtml .= $TDListOdd;else $reporthtml .= $TDListEven;
-		$reporthtml .= $row["NbrPassengers"];
+		$reporthtml .= $row["NbrPassengers"]."</div></td>";
 			}
 		if (get_option('FP_pirep_showcol8'))
 			{
 		if($Line==0)$reporthtml .= $TDListOdd;else $reporthtml .= $TDListEven;
-		$reporthtml .= $row["AircraftType"];
+		$reporthtml .= $row["AircraftType"]."</div></td>";
 			}
 		if (get_option('FP_pirep_showcol9'))
 			{
 		if($Line==0)$reporthtml .= $TDListOdd;else $reporthtml .= $TDListEven;
-		$reporthtml .= $row["TotalBlockTime"];
+		$reporthtml .= $row["TotalBlockTime"]."</div></td>";
 			}
 		if (get_option('FP_pirep_showcol10'))
 			{
 		if($Line==0)$reporthtml .= $TDListOdd;else $reporthtml .= $TDListEven;
-		$reporthtml .= $row["FlightResult"];
+		$reporthtml .= $row["FlightResult"]."</div></td>";
 			}
 
-		$reporthtml .= "</td></tr>\n";
+		$reporthtml .= "</tr>\n";
 	
 		$Line=!$Line;
 		$boardlength+=1;
@@ -189,7 +211,7 @@ function build_flight_list($reporthtml)
 	}
 $reporthtml .= $ListStop;
 
-$reporthtml .= "<br />".$ListStart.$TDListSummary."Total Flight made: $NrfFlights<br />total flight time: $CompanyFlightTime<br />Total passengers carried: $TotalPassengers<br />Total Cargo: $TotalCargo kg".$ListStop;
+$reporthtml .= "<br />".$ListSummary."Total Flight made: $NrfFlights<br />total flight time: $CompanyFlightTime<br />Total passengers carried: $TotalPassengers<br />Total Cargo: $TotalCargo kg</div>";
 
 return $reporthtml;
 }
@@ -390,3 +412,14 @@ function mt_add_pages()
 // Add hook to WP
 
 add_filter('the_content','fedprod_showfspflights');
+
+function fedprod_addToHead() {
+	if (!is_admin()) {
+		wp_enqueue_script('jquery');
+		$file = dirname(__FILE__) . '/fs-pax-pirep.php';
+		$file_url = plugin_dir_url($file);
+		$style_sheet = $file_url . "css/fs-pax.css";
+		WP_Enqueue_Style('fs-pax-pirep', $style_sheet, false, $plugin_version);
+	}
+}
+add_action('init', 'fedprod_addToHead');
