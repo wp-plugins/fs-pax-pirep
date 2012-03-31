@@ -4,7 +4,7 @@ Donate Link: http://www.federalproductions.com
 Tags: FSPassengers, Flight simulator
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 2.0
+Stable tag: 2.0.1
 
 Adds scripted PIREP display as a plugin to WordPress.
 

@@ -4,7 +4,7 @@
 Plugin Name: FS-Pax Pirep
 Plugin URI: http://www.federalproductions.com/studio/game-add-ons/fs-pax/
 Description: Adds scripted PIREP display as a plugin to WordPress
-Version: 2.0
+Version: 2.0.1
 Author: Ted Thompson
 Author URI: http://www.federalproductions.com
 */
@@ -36,10 +36,12 @@ $file_url = plugin_dir_url($file);
 <!-- Start FS-PAX added code -->
 	<script type="text/javascript" src="<?php echo $file_url ?>js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" charset="utf-8">
-		$(document).ready(function() {
-			$('#pireplist').dataTable( {
-			"bSort": false,
-			"sPaginationType": "full_numbers"
+		jQuery(function($) {
+			$(document).ready(function() {
+				$('#pireplist').dataTable( {
+				"bSort": false,
+				"sPaginationType": "full_numbers"
+				} );
 			} );
 		} );
 	</script>
