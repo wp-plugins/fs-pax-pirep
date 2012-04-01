@@ -12,9 +12,9 @@ Adds scripted PIREP display as a plugin to WordPress.
 
 This plugin is to be used in conjunction with [FSPassengers] (http://www.fspassengers.com) add-on for Flight Simulator 9 and X.
 
-It retrieves, formats, and presents data from the last 10 flights filed using FSPassengers built in report filing system, which stores this information in an SQL database on your web server.  (Details on storing this data is provided with FSPassengers documentation)
+It retrieves, formats, and presents data from the all the flights filed using FSPassengers built in report filing system, which stores this information in an SQL database on your web server.  (Details on storing this data is provided with FSPassengers documentation)
 
-With the plugin enabled any page or post with the short code `[fp-pirep-report]` will display the data.  Other content can be present on the page.   Exactly which data is presented is selected via check boxes on the FS-Pax Pirep settings page, located in "Settings->FP FS-Pax Pirep".
+With the plugin enabled any page or post with the short code `[fp-pirep-report]` will display the data.  Other content can be present on the page.   Exactly which data is presented is selected via check boxes on the FS-Pax Pirep settings page, located in "Settings->FP FS-Pax Pirep". Flights will automagically be presented paginated with 10 flights per page.
 
 == Installation ==
 
@@ -36,6 +36,10 @@ No. Setting up and FSP VA should be pursued though FSPassengers.com's forums.
 1. Styled Output Screen
 
 == Changelog ==
+
+= 2.0.1 =
+
+* Fixed bug that made the pagination dependent on the theme that my blog was using while I was developing this version (oops).
 
 = 2.0 =
 
